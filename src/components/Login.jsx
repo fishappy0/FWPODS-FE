@@ -8,7 +8,8 @@ import { AuthContext } from "../context/AuthContext";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const setIsLoggedIn = useContext(AuthContext)
+  const [isLoading, setIsLoading] = useState("")
+  const { setIsLoggedIn } = useContext(AuthContext)
   const navigate = useNavigate()
 
   const registerPage = () => {
@@ -23,6 +24,9 @@ const Login = () => {
       return;
     }
 
+    setIsLoading(true)
+    toast.info("Logging in...")
+
     try {
       const response = await fetch("https://musicbe.fishand.me/login", {
         method: "POST",
@@ -32,28 +36,34 @@ const Login = () => {
         body: JSON.stringify({ username, password }),
       });
 
-      if (!response?.ok) {
-        throw new Error(
-          "Login failed. Please check your username and password."
-        );
+      if (!response.ok) {
+        toast.error("Login failed. Please check your username and password.")
+        setIsLoading(false)
+        return
       }
 
       const data = await response.json();
       console.log("Login successful: ", data)
-      toast.success("Successfully logged in")
+      toast.success("Successfully logged in.")
 
-      localStorage.setItem("token", data.token)
       setIsLoggedIn(true)
-      navigate("/home")
+      localStorage.setItem("token", data.token)
+
+      // very hack-y way to do this.
+      setTimeout(() => {
+        navigate("/")
+      }, 1500)
 
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error)
+    } finally {
+      setIsLoading(false)
     }
   };
 
   return (
     <div>
-      <ToastContainer />
+      <ToastContainer autoClose={5000} />
       <main className="mx-auto flex min-h-screen w-full items-center justify-center text-white">
         <section className="flex w-[30rem] flex-col space-y-10">
           <div className="text-center text-4xl font-medium">Log In</div>

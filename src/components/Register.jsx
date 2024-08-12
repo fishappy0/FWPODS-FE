@@ -28,10 +28,10 @@ const Register = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ 
-          "username":username, 
-          "name":name, 
-          "email":email, 
+        body: JSON.stringify({
+          "username":username,
+          "name":name,
+          "email":email,
           "password":password }),
       });
 
@@ -39,6 +39,7 @@ const Register = () => {
         throw new Error("Registering failed.");
       }
 
+      toast.success("Successfully registered.")
       navigate("/login");
     } catch (error) {
       toast.error(error.message);
