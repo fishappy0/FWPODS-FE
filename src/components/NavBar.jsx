@@ -1,12 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { assets } from "../../assets/assets";
+import { AuthContext } from "../context/AuthContext";
+import { useContext } from "react";
 
 const NavBar = () => {
+  const { logout } = useContext(AuthContext)
   const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate("/login")
-  }
 
   return (
     <div className="w-full flex justify-between items-center font-semibold">
@@ -18,10 +17,9 @@ const NavBar = () => {
           <img src={assets.arrow_right} alt="" />
         </button>
       </div>
-      {/* Might be used for the login functionality in the future */}
       <div className="flex items-center gap-4">
-        <button onClick={handleClick} className="bg-white text-black text-[15px] px-4 py-1 rounded-2xl hidden md:block cursor-pointer">
-          Login
+        <button onClick={logout} className="bg-white text-black text-[15px] px-4 py-1 rounded-2xl hidden md:block cursor-pointer">
+          Sign out
         </button>
         {/*<p className="bg-purple-500 text-black w-7 h-7 rounded-full flex items-center justify-center">
           D
