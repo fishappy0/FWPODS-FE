@@ -8,7 +8,6 @@ import { AuthContext } from "../context/AuthContext";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState("")
   const { setIsLoggedIn } = useContext(AuthContext)
   const navigate = useNavigate()
 
@@ -24,7 +23,6 @@ const Login = () => {
       return;
     }
 
-    setIsLoading(true)
     toast.info("Logging in...")
 
     try {
@@ -38,7 +36,6 @@ const Login = () => {
 
       if (!response.ok) {
         toast.error("Login failed. Please check your username and password.")
-        setIsLoading(false)
         return
       }
 
@@ -48,6 +45,7 @@ const Login = () => {
 
       setIsLoggedIn(true)
       localStorage.setItem("token", data.token)
+      localStorage.setItem("username", username)
 
       // very hack-y way to do this.
       setTimeout(() => {
@@ -56,14 +54,12 @@ const Login = () => {
 
     } catch (error) {
       toast.error(error)
-    } finally {
-      setIsLoading(false)
     }
   };
 
   return (
     <div>
-      <ToastContainer autoClose={5000} />
+      <ToastContainer autoClose={3000} />
       <main className="mx-auto flex min-h-screen w-full items-center justify-center text-white">
         <section className="flex w-[30rem] flex-col space-y-10">
           <div className="text-center text-4xl font-medium">Log In</div>

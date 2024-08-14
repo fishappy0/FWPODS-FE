@@ -29,11 +29,11 @@ const Album = () => {
       </div>
       <div className="grid grid-cols-3 sm:grid-cols-4 mt-10 mb-4 pl-2 text-[#A7A7A7]">
         <p>
-          <b className="mr-4">#</b>Title
+          <b className="mr-6">#</b>Title
         </p>
         <p>Album</p>
         <p className="hidden sm:block">Date Added</p>
-        <img className="m-auto w-4" src={assets.clock_icon} alt="" />
+        <p className="m-auto">Duration</p>
       </div>
       <hr />
       {songsData.map((item, index) => (
@@ -43,8 +43,8 @@ const Album = () => {
           className="grid grid-cols-3 sm:grid-cols-4 gap-2 p-2 items-center text-[#A7A7A7] hover:bg-[#FFFFFF2B] cursor-pointer"
         >
           <p className="text-white">
-            <b className="mr-4 text-[#A7A7A7]">{index + 1}</b>
-            <img className="inline w-10 mr-5-rounded" src={item.image} alt="" />
+            <b className="mr-6 text-[#A7A7A7]">{index + 1}</b>
+            <img className="inline w-10 mr-4 rounded" src={item.image} alt="" />
             {item.name}
           </p>
           <p className="text-[15px]">{albumData.name}</p>

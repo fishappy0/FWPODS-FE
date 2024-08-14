@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 
 const NavBar = () => {
-  const { logout } = useContext(AuthContext)
+  const { logout, username } = useContext(AuthContext)
   const navigate = useNavigate();
 
   return (
@@ -18,12 +18,12 @@ const NavBar = () => {
         </button>
       </div>
       <div className="flex items-center gap-4">
+      <div className="text-white">
+        Welcome, {username}!
+      </div>
         <button onClick={logout} className="bg-white text-black text-[15px] px-4 py-1 rounded-2xl hidden md:block cursor-pointer">
           Sign out
         </button>
-        {/*<p className="bg-purple-500 text-black w-7 h-7 rounded-full flex items-center justify-center">
-          D
-        </p>*/}
       </div>
     </div>
   );

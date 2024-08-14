@@ -4,7 +4,7 @@ import Player from "./components/Player";
 import Sidebar from "./components/Sidebar";
 import { PlayerContext } from "./context/PlayerContext";
 import { useContext } from "react";
-import { AuthContext, AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
   const { audioRef, track } = useContext(PlayerContext);
