@@ -14,11 +14,28 @@ const Register = () => {
     navigate("/login");
   };
 
+  function validateEmail(email) {
+    /*
+     * the regex checks for 3 things:
+     * 1. the string only contains 1 "."
+     * 2. exactly 1 "@" before the "."
+     * 3. no "@" after the "."
+     * returns false if the email doenst meet at least one of the criteria.
+     */
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return re.test(email)
+  }
+
   const handleRegister = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
     if (!username || !name || !email || !password) {
       toast.error("Please fill out all fields.");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      toast.error("Please enter a valid email.");
       return;
     }
 
@@ -29,18 +46,22 @@ const Register = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "username":username,
-          "name":name,
-          "email":email,
-          "password":password }),
+          username: username,
+          name: name,
+          email: email,
+          password: password,
+        }),
       });
 
       if (!response?.ok) {
         throw new Error("Registering failed.");
       }
 
-      toast.success("Successfully registered.")
-      navigate("/login");
+      toast.success("Successfully registered.");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (error) {
       toast.error(error.message);
     }
@@ -48,7 +69,7 @@ const Register = () => {
 
   return (
     <div>
-      <ToastContainer />
+      <ToastContainer autoClose={1500} />
       <main className="mx-auto flex min-h-screen w-full items-center justify-center text-white">
         <section className="flex w-[30rem] flex-col space-y-10">
           <div className="text-center text-4xl font-medium">Register</div>

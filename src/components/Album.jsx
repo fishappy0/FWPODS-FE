@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import NavBar from "./NavBar";
-import { songsData, assets, albumsData } from "../../assets/assets";
+import { songsData, albumsData } from "../../assets/assets";
 import { useContext } from "react";
 import { PlayerContext } from "../context/PlayerContext";
 
@@ -21,7 +21,7 @@ const Album = () => {
           </h2>
           <h4 className="">{albumData.desc}</h4>
           <p className="mt-1">
-            <img src={assets.spofity_logo} alt="" />
+            {/* <img src={} alt="" /> */}
             {/* Be sure to change artist name (the one below this) too*/}
             <b>Spotify</b>
           </p>

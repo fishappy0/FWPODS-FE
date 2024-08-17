@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import { createContext, useRef, useState, useEffect } from "react";
+import { createContext, useRef, useState, useEffect, useMemo } from "react";
 import { songsData } from "../../assets/assets";
 
 export const PlayerContext = createContext();
@@ -55,11 +54,13 @@ const PlayerContextProvider = (props) => {
   };
 
   const seekSong = async (event) => {
-    audioRef.current.currentTime = ((event.nativeEvent.offsetX / seekBg.current.offsetWidth) * audioRef.current.duration)
-  }
+    audioRef.current.currentTime =
+      (event.nativeEvent.offsetX / seekBg.current.offsetWidth) *
+      audioRef.current.duration;
+  };
 
   useEffect(() => {
-    setTimeout(() => {
+    const updateTime = () => {
       audioRef.current.ontimeupdate = () => {
         seekBar.current.style.width =
           Math.floor(
@@ -76,26 +77,47 @@ const PlayerContextProvider = (props) => {
           },
         });
       };
-    });
-  }, [audioRef]);
+    };
 
-  const contextValue = {
-    audioRef,
-    seekBar,
-    seekBg,
-    track,
-    setTrack,
-    playStatus,
-    setPlayStatus,
-    time,
-    setTime,
-    play,
-    pause,
-    playWithId,
-    previous,
-    next,
-    seekSong
-  };
+    audioRef.current.ontimeupdate = updateTime;
+  });
+
+  const contextValue = useMemo(() =>
+    ({
+      audioRef,
+      seekBar,
+      seekBg,
+      track,
+      setTrack,
+      playStatus,
+      setPlayStatus,
+      time,
+      setTime,
+      play,
+      pause,
+      playWithId,
+      previous,
+      next,
+      seekSong,
+    }),
+      [
+        audioRef,
+        seekBar,
+        seekBg,
+        track,
+        setTrack,
+        playStatus,
+        setPlayStatus,
+        time,
+        setTime,
+        play,
+        pause,
+        playWithId,
+        previous,
+        next,
+        seekSong,
+      ]
+  );
 
   return (
     <PlayerContext.Provider value={contextValue}>

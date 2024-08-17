@@ -40,17 +40,17 @@ const Login = () => {
       }
 
       const data = await response.json();
-      console.log("Login successful: ", data)
+      console.log("Login successful: ", data.token)
       toast.success("Successfully logged in.")
 
-      setIsLoggedIn(true)
       localStorage.setItem("token", data.token)
       localStorage.setItem("username", username)
+      setIsLoggedIn(true)
 
       // very hack-y way to do this.
       setTimeout(() => {
         navigate("/")
-      }, 1500)
+      }, 2000)
 
     } catch (error) {
       toast.error(error)
@@ -59,7 +59,7 @@ const Login = () => {
 
   return (
     <div>
-      <ToastContainer autoClose={3000} />
+      <ToastContainer autoClose={1500} />
       <main className="mx-auto flex min-h-screen w-full items-center justify-center text-white">
         <section className="flex w-[30rem] flex-col space-y-10">
           <div className="text-center text-4xl font-medium">Log In</div>

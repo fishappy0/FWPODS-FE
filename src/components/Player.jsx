@@ -1,9 +1,9 @@
-import { useContext } from "react";
-import { assets } from "../../assets/assets";
+import { useContext, useState } from "react";
 import { PlayerContext } from "../context/PlayerContext";
-import { useState } from "react";
 import { HiHeart } from "react-icons/hi2";
 import { BsHeartFill } from "react-icons/bs";
+import { GiNextButton, GiPreviousButton } from "react-icons/gi";
+import { PiPauseFill, PiPlayFill } from "react-icons/pi";
 
 const Player = () => {
   const {
@@ -24,6 +24,11 @@ const Player = () => {
     setIsFavorite(!isFavorite);
   };
 
+  const formatTime = (time) => {
+    if (time < 10) return String(time).padStart(2, "0")
+    else return time
+  }
+
   return (
     <div className="h-[10%] bg-black flex justify-between items-center text-white px-4">
       <div className="hidden lg:flex items-center gap-4">
@@ -35,37 +40,25 @@ const Player = () => {
       </div>
       <div className="flex flex-col items-center gap-1 m-auto">
         <div className="flex gap-4">
-          <img
-            onClick={previous}
-            className="w-4 cursor-pointer"
-            src={assets.prev_icon}
-            alt=""
-          />
+          <button className="cursor-pointer" onClick={previous}>
+            <GiPreviousButton size={30} />
+          </button>
           {playStatus ? (
-            <img
-              onClick={pause}
-              className="w-4 cursor-pointer"
-              src={assets.pause_icon}
-              alt=""
-            />
+            <button className="cursor-pointer" onClick={pause}>
+              <PiPauseFill size={25} />
+            </button>
           ) : (
-            <img
-              onClick={play}
-              className="w-4 cursor-pointer"
-              src={assets.play_icon}
-              alt=""
-            />
+            <button className="cursor-pointer" onClick={play}>
+              <PiPlayFill size={25} />
+            </button>
           )}
-          <img
-            onClick={next}
-            className="w-4 cursor-pointer"
-            src={assets.next_icon}
-            alt=""
-          />
+          <button className="cursor-pointer" onClick={next}>
+            <GiNextButton size={30} />
+          </button>
         </div>
         <div className="flex items-center gap-5">
           <p>
-            {time.currentTime.minute}:{time.currentTime.second}
+            {time.currentTime.minute}:{formatTime(time.currentTime.second)}
           </p>
           <div
             ref={seekBg}
@@ -78,13 +71,13 @@ const Player = () => {
             />
           </div>
           <p>
-            {time.totalTime.minute}:{time.totalTime.second}
+            {time.totalTime.minute}:{formatTime(time.totalTime.second)}
           </p>
         </div>
       </div>
       <div className="hidden lg:flex items-center gap-2 opacity-75">
         <button onClick={handleFavorite}>
-          {isFavorite ? <BsHeartFill size={25} style={{ color: "red" }} /> : <HiHeart size={25} />}
+          {isFavorite ? <BsHeartFill size={25} style={{ color: "red" }} /> : <HiHeart size={30} />}
         </button>
       </div>
     </div>

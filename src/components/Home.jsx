@@ -1,50 +1,63 @@
 import NavBar from "./NavBar";
-import { albumsData, songsData } from "../../assets/assets";
 import AlbumItem from "./AlbumItem";
 import SongItem from "./SongItem";
+import { fetchSongIds } from "../api/fetchSongIds";
 import { toast, ToastContainer } from "react-toastify";
-import { AuthContext } from "../context/AuthContext";
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
+
+import { albumsData, songsData } from "../../assets/assets";
+import { fetchSongData } from "../api/fetchSongData";
 
 const Home = () => {
-  const { token } = useContext(AuthContext);
+  const token = localStorage.getItem("token")
   const [songIds, setSongIds] = useState([]);
-  // const [songDataList, setSongDataList] = useState([]);
+  const [songData, setSongData] = useState([]);
   const songs_number = 10; // number of songs, defaulting to 10 for the time being.
 
   // get a list of song ids.
   useEffect(() => {
     const getSongIds = async () => {
       try {
-        const response = await fetch(
-          "https://musicbe.fishand.me/get_random_songs",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              Authorization: token,
-              Songs_number: songs_number,
-            }),
-          }
-        );
-
-        const data = await response.json();
-        console.log(data);
-        setSongIds(data.songs);
+        const ids = await fetchSongIds(token, songs_number)
+        setSongIds(ids)
       } catch (error) {
-        toast.error(`Error fetching song: ${error}`);
+        toast.error(`Error fetching songs: ${error}`)
       }
     };
 
     getSongIds();
-  }, [token, songIds]);
+  }, [token]);
+
+  console.log(songIds)
+
+  // get the song's info
+  useEffect(() => {
+    if (songIds.length === 0) return
+
+    const getSongInfo = async () => {
+      try {
+        // get one song at a time
+        const songId = songIds.map(async (songIds) => {
+          console.log("Song ID: ", songIds)
+          const data = await fetchSongData(token, songIds)
+          return data
+        })
+
+        const results = await Promise.all(songId)
+        console.log("Song info: ", results)
+        setSongData(results)
+      } catch (error) {
+        toast.error(`Error fetching song data: ${error}`)
+      }
+    }
+
+    getSongInfo()
+  }, [token, songIds])
 
   return (
     <>
       <NavBar />
-      <ToastContainer autoClose={3000} />
+      <ToastContainer autoClose={2000} />
       <div className="mb-4">
         <h1 className="my-5 font-bold text-2xl">Favorited songs</h1>
         <div className="flex overflow-auto md:overflow-hidden">

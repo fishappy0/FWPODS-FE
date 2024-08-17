@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { assets } from "../../assets/assets";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 const NavBar = () => {
   const { logout, username } = useContext(AuthContext)
@@ -10,11 +10,11 @@ const NavBar = () => {
   return (
     <div className="w-full flex justify-between items-center font-semibold">
       <div className="flex items-center gap-2">
-        <button onClick={() => navigate(-1)} className="w-8 bg-black p-2 rounded-2xl cursor-pointer" aria-label="Navigate back">
-          <img src={assets.arrow_left} alt="" />
+        <button onClick={() => navigate(-1)} className="bg-black p-2 rounded-3xl cursor-pointer" aria-label="Navigate back">
+          <BsArrowLeft size={20} />
         </button>
-        <button onClick={() => navigate(1)} className="w-8 bg-black p-2 rounded-2xl cursor-pointer" aria-label="Navigate forward">
-          <img src={assets.arrow_right} alt="" />
+        <button onClick={() => navigate(1)} className="bg-black p-2 rounded-3xl cursor-pointer" aria-label="Navigate forward">
+          <BsArrowRight size={20} />
         </button>
       </div>
       <div className="flex items-center gap-4">
