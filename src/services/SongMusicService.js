@@ -10,6 +10,10 @@ export const songMusicService = async (token, songId) => {
         })
     })
 
-    const data = await response.json()
-    return data
+    const contentType = response.headers.get("Content-Type")
+    if (contentType?.startsWith("audio")) {
+        const blob = await response.blob()
+        const url = URL.createObjectURL(blob)
+        return { url }
+    }
 }

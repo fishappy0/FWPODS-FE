@@ -1,13 +1,10 @@
 import { useParams } from "react-router-dom";
 import NavBar from "./NavBar";
-import { songsData, albumsData } from "../../assets/assets";
-import { useContext } from "react";
-import { PlayerContext } from "../context/PlayerContext";
+import { albumsData } from "../../assets/assets";
 
 const Album = () => {
   const { id } = useParams();
   const albumData = albumsData[id];
-  const { playWithId } = useContext(PlayerContext);
 
   return (
     <>
@@ -36,7 +33,7 @@ const Album = () => {
         <p className="m-auto">Duration</p>
       </div>
       <hr />
-      {songsData.map((item, index) => (
+      {/* {songsData.map((item, index) => (
         <div
           onClick={() => playWithId(item.id)}
           key={index}
@@ -51,7 +48,7 @@ const Album = () => {
           <p className="text-[15px] hidden:sm-block">5 days ago</p>
           <p className="text-[15px] text-center">{item.duration}</p>
         </div>
-      ))}
+      ))} */}
     </>
   );
 };

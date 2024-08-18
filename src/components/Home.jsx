@@ -5,7 +5,7 @@ import { fetchSongIds } from "../api/fetchSongIds";
 import { toast, ToastContainer } from "react-toastify";
 import { useState, useEffect } from "react";
 
-import { albumsData, songsData } from "../../assets/assets";
+import { albumsData } from "../../assets/assets";
 import { fetchSongData } from "../api/fetchSongData";
 
 const Home = () => {
@@ -26,9 +26,9 @@ const Home = () => {
     };
 
     getSongIds();
-  }, [token]);
+  }, [token, songs_number]);
 
-  console.log(songIds)
+  console.log("testing")
 
   // get the song's info
   useEffect(() => {
@@ -44,7 +44,6 @@ const Home = () => {
         })
 
         const results = await Promise.all(songId)
-        console.log("Song info: ", results)
         setSongData(results)
       } catch (error) {
         toast.error(`Error fetching song data: ${error}`)
@@ -64,9 +63,9 @@ const Home = () => {
           {albumsData.map((item, index) => (
             <AlbumItem
               key={index}
-              name={item.name}
-              desc={item.desc}
               id={item.id}
+              name={item.name}
+              artist={item.desc}
               image={item.image}
             />
           ))}
@@ -75,13 +74,15 @@ const Home = () => {
       <div className="mb-4">
         <h1 className="my-5 font-bold text-2xl">Discover songs</h1>
         <div className="flex overflow-auto md:overflow-hidden">
-          {songsData.map((item, index) => (
+          {songData.map((item) => (
+            // Don't remove any items from the SongItem component unless you're abosultely certain of what you're doing.
             <SongItem
-              key={index}
-              name={item.name}
-              desc={item.desc}
-              id={item.id}
+              key={item.song_id}
+              id={item.song_id}
+              name={item.song_name}
+              artist={item.artist}
               image={item.image}
+              song={item}
             />
           ))}
         </div>

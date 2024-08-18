@@ -7,7 +7,7 @@ import { PiPauseFill, PiPlayFill } from "react-icons/pi";
 
 const Player = () => {
   const {
-    track,
+    songData,
     seekBar,
     seekBg,
     playStatus,
@@ -25,17 +25,26 @@ const Player = () => {
   };
 
   const formatTime = (time) => {
-    if (time < 10) return String(time).padStart(2, "0")
-    else return time
+    if (time < 10) return String(time).padStart(2, "0");
+    else return time;
+  };
+
+  if (!songData) {
+    // Handle case when track is null or undefined
+    return (
+      <div className="mt-4 bg-black flex justify-center items-center text-white px-4">
+        <p className="text-xl font-bold">No track selected</p>
+      </div>
+    );
   }
 
   return (
     <div className="h-[10%] bg-black flex justify-between items-center text-white px-4">
       <div className="hidden lg:flex items-center gap-4">
-        <img className="w-12" src={track.image} alt="" />
+        <img className="w-12" src={songData.image} alt="" />
         <div>
-          <p>{track.name}</p>
-          <p>{track.desc.slice(0, 12)}</p>
+          <p>{songData.song_name}</p>
+          <p>{songData.artist}</p>
         </div>
       </div>
       <div className="flex flex-col items-center gap-1 m-auto">
@@ -77,7 +86,11 @@ const Player = () => {
       </div>
       <div className="hidden lg:flex items-center gap-2 opacity-75">
         <button onClick={handleFavorite}>
-          {isFavorite ? <BsHeartFill size={25} style={{ color: "red" }} /> : <HiHeart size={30} />}
+          {isFavorite ? (
+            <BsHeartFill size={25} style={{ color: "red" }} />
+          ) : (
+            <HiHeart size={30} />
+          )}
         </button>
       </div>
     </div>
