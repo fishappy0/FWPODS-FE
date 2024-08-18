@@ -1,11 +1,9 @@
 import NavBar from "./NavBar";
-import AlbumItem from "./AlbumItem";
 import SongItem from "./SongItem";
 import { fetchSongIds } from "../api/fetchSongIds";
 import { toast, ToastContainer } from "react-toastify";
 import { useState, useEffect } from "react";
 
-import { albumsData } from "../../assets/assets";
 import { fetchSongData } from "../api/fetchSongData";
 
 const Home = () => {
@@ -57,20 +55,6 @@ const Home = () => {
     <>
       <NavBar />
       <ToastContainer autoClose={2000} />
-      <div className="mb-4">
-        <h1 className="my-5 font-bold text-2xl">Favorited songs</h1>
-        <div className="flex overflow-auto md:overflow-hidden">
-          {albumsData.map((item, index) => (
-            <AlbumItem
-              key={index}
-              id={item.id}
-              name={item.name}
-              artist={item.desc}
-              image={item.image}
-            />
-          ))}
-        </div>
-      </div>
       <div className="mb-4">
         <h1 className="my-5 font-bold text-2xl">Discover songs</h1>
         <div className="flex overflow-auto md:overflow-hidden">
