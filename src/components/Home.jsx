@@ -1,10 +1,11 @@
 import NavBar from "./NavBar";
 import SongItem from "./SongItem";
-import { fetchSongIds } from "../api/fetchSongIds";
 import { toast, ToastContainer } from "react-toastify";
 import { useState, useEffect } from "react";
+import {v4 as uuidv4} from "uuid";
 
-import { fetchSongData } from "../api/fetchSongData";
+import { songDataService } from "../services/SongDataService";
+import { songIdsService } from "../services/SongIdsService";
 
 const Home = () => {
   const token = localStorage.getItem("token")
@@ -16,7 +17,7 @@ const Home = () => {
   useEffect(() => {
     const getSongIds = async () => {
       try {
-        const ids = await fetchSongIds(token, songs_number)
+        const ids = await songIdsService(token, songs_number)
         setSongIds(ids)
       } catch (error) {
         toast.error(`Error fetching songs: ${error}`)
@@ -26,8 +27,6 @@ const Home = () => {
     getSongIds();
   }, [token, songs_number]);
 
-  console.log("testing")
-
   // get the song's info
   useEffect(() => {
     if (songIds.length === 0) return
@@ -36,8 +35,7 @@ const Home = () => {
       try {
         // get one song at a time
         const songId = songIds.map(async (songIds) => {
-          console.log("Song ID: ", songIds)
-          const data = await fetchSongData(token, songIds)
+          const data = await songDataService(token, songIds)
           return data
         })
 
@@ -61,7 +59,7 @@ const Home = () => {
           {songData.map((item) => (
             // Don't remove any items from the SongItem component unless you're abosultely certain of what you're doing.
             <SongItem
-              key={item.song_id}
+              key={uuidv4()}
               id={item.song_id}
               name={item.song_name}
               artist={item.artist}
