@@ -10,7 +10,7 @@ const Home = () => {
   const token = localStorage.getItem("token")
   const [songIds, setSongIds] = useState([]);
   const [songData, setSongData] = useState([]);
-  const songs_number = 10; // number of songs, defaulting to 10 for the time being.
+  const songs_number = 50; // number of songs, defaulting to 50 for the time being.
 
   // get a list of song ids.
   useEffect(() => {
@@ -57,7 +57,7 @@ const Home = () => {
       <ToastContainer autoClose={2000} />
       <div className="mb-4">
         <h1 className="my-5 font-bold text-2xl">Discover songs</h1>
-        <div className="flex overflow-auto md:overflow-hidden">
+        <div className="flex flex-wrap gap-4 md:overflow-hidden">
           {songData.map((item) => (
             // Don't remove any items from the SongItem component unless you're abosultely certain of what you're doing.
             <SongItem
