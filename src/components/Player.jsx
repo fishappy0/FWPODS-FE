@@ -20,6 +20,7 @@ const Player = () => {
   } = useContext(PlayerContext);
 
   const [isFavorite, setIsFavorite] = useState(false);
+  
   const handleFavorite = async () => {
     setIsFavorite(!isFavorite);
   };

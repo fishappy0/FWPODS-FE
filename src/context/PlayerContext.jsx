@@ -48,7 +48,7 @@ const PlayerContextProvider = (props) => {
     try {
       const token = localStorage.getItem("token");
       const data = await songMusicService(token, song.song_id);
-      console.log(data);
+      // console.log(data);
       if (audioRef.current) {
         audioRef.current.src = data.url;
         await audioRef.current.play();
